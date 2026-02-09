@@ -19,69 +19,139 @@
   <a href="#"><img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=flat-square&logo=apple" alt="macOS"></a>
 </p>
 
----
+<br>
+
+<p align="center">
+  <img src="screenshots/video-analyzed.png" width="700" alt="Media Pull — Analyze and download any YouTube video in up to 4K">
+</p>
+
+<br>
 
 ## Features
 
+<table>
+<tr>
+<td width="50%" valign="top">
+
 ### Video Downloads
-- **Up to 4K resolution** &mdash; download in 2160p, 1440p, 1080p, 720p, or 480p
-- **Audio-only mode** &mdash; extract audio as high-quality M4A files
-- **Smart format selection** &mdash; automatically picks the best codec (H.264, VP9, AV1) per resolution
-- **Hardware-accelerated encoding** &mdash; uses Apple VideoToolbox (GPU) with automatic CPU fallback
+- **Up to 4K resolution** &mdash; 2160p, 1440p, 1080p, 720p, or 480p
+- **Audio-only mode** &mdash; extract audio as high-quality M4A
+- **Smart format selection** &mdash; best codec per resolution (H.264, VP9, AV1)
+- **GPU encoding** &mdash; Apple VideoToolbox with automatic CPU fallback
+
+</td>
+<td width="50%" valign="top">
 
 ### SponsorBlock Integration
-- **Automatic sponsor removal** &mdash; strips ads, intros, outros, self-promotions, and filler
-- **Community-powered** &mdash; leverages the SponsorBlock database with 8 configurable categories
-- **Smart auto-disable** &mdash; automatically skips SponsorBlock when downloading chapters (timestamps would shift)
+- **Automatic sponsor removal** &mdash; strips ads, intros, outros, and filler
+- **Community-powered** &mdash; 8 configurable segment categories
+- **Smart auto-disable** &mdash; skips SponsorBlock when downloading chapters
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
 ### Chapter Downloads
 - **Split by chapter** &mdash; download individual chapters as separate files
-- **Instant splitting** &mdash; uses stream copy (no re-encoding) for chapter extraction
+- **Instant splitting** &mdash; stream copy, no re-encoding
 - **Organized output** &mdash; saves to `Video Title/01 - Chapter Name.mp4`
 
+</td>
+<td width="50%" valign="top">
+
 ### Playlist Downloads
-- **Batch download** &mdash; download entire playlists sequentially
-- **Selective downloading** &mdash; pick which videos to include with select all/none controls
-- **Organized output** &mdash; creates a subfolder named after the playlist
-- **Resilient** &mdash; continues to the next video if one fails, with per-video progress tracking
+- **Batch download** &mdash; entire playlists sequentially
+- **Selective downloading** &mdash; pick which videos to include
+- **Resilient** &mdash; continues to next video on failure
 - **Cancellable** &mdash; stop after the current video finishes
 
-### Additional Features
-- **Trim/clip support** &mdash; download a specific time range of any video
-- **Cookie authentication** &mdash; access age-restricted and members-only content via browser cookies
-- **Configurable bitrate** &mdash; auto, per-resolution, or custom bitrate encoding modes
-- **Download history** &mdash; searchable library of past downloads
-- **Auto-update** &mdash; checks for yt-dlp updates and installs with one click
-- **Retry system** &mdash; up to 6 retries with progressive delays for reliability
-- **Real-time progress** &mdash; speed, ETA, and percentage displayed in the status bar
-- **Activity log** &mdash; detailed logging with export capability
-- **Keyboard shortcuts** &mdash; `Cmd+V` to paste, `Cmd+Enter` to download
+</td>
+</tr>
+</table>
+
+**Plus:** trim/clip support, cookie authentication for age-restricted content, configurable bitrate encoding, searchable download history, one-click yt-dlp updates, real-time progress with speed & ETA, detailed activity logs, and keyboard shortcuts.
 
 ---
 
 ## Screenshots
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/placeholder-main" width="800" alt="Media Pull — Main Interface">
+  <picture>
+    <img src="screenshots/main.png" width="700" alt="Media Pull — Main Interface">
+  </picture>
+</p>
+<p align="center">
+  <sub>Clean, minimal interface &mdash; paste a URL and hit Analyze</sub>
 </p>
 
-<p align="center">
-  <em>Analyze any YouTube video and choose your preferred quality</em>
-</p>
+<br>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/placeholder-playlist" width="800" alt="Media Pull — Playlist Downloads">
+  <picture>
+    <img src="screenshots/video-analyzed.png" width="700" alt="Media Pull — Video Analyzed">
+  </picture>
+</p>
+<p align="center">
+  <sub>Pick your quality, toggle SponsorBlock, enable subtitles or trim &mdash; then download</sub>
 </p>
 
+<br>
+
 <p align="center">
-  <em>Download entire playlists with selective video picking</em>
+  <picture>
+    <img src="screenshots/SponsorBlock.png" width="700" alt="Media Pull — SponsorBlock Settings">
+  </picture>
 </p>
+<p align="center">
+  <sub>Fine-tune which sponsor segments to remove with 8 community-powered categories</sub>
+</p>
+
+<br>
+
+<details>
+<summary><strong>More screenshots</strong></summary>
+<br>
+
+<p align="center">
+  <picture>
+    <img src="screenshots/Settings.png" width="700" alt="Media Pull — Settings">
+  </picture>
+</p>
+<p align="center">
+  <sub>Configure cookies, encoding, output directory, and advanced options</sub>
+</p>
+
+<br>
+
+<p align="center">
+  <picture>
+    <img src="screenshots/Logs.png" width="700" alt="Media Pull — Activity Log">
+  </picture>
+</p>
+<p align="center">
+  <sub>Full activity log with export capability for debugging</sub>
+</p>
+
+<br>
+
+<p align="center">
+  <picture>
+    <img src="screenshots/Help.png" width="700" alt="Media Pull — Help">
+  </picture>
+</p>
+<p align="center">
+  <sub>Built-in help with getting started guide, troubleshooting, and keyboard shortcuts</sub>
+</p>
+
+</details>
 
 ---
 
 ## Installation
 
 ### Download
+
 Grab the latest `.dmg` from the [Releases](https://github.com/bytePatrol/MediaPull/releases/latest) page.
 
 1. Open the `.dmg` file
@@ -89,10 +159,13 @@ Grab the latest `.dmg` from the [Releases](https://github.com/bytePatrol/MediaPu
 3. On first launch, right-click the app and select **Open** (macOS Gatekeeper)
 
 ### Requirements
-- **macOS 11+** (Big Sur or later, Apple Silicon native)
-- **yt-dlp** &mdash; installed via Homebrew (`brew install yt-dlp`) or managed by the app
-- **ffmpeg** &mdash; installed via Homebrew (`brew install ffmpeg`) or bundled
-- **Python 3.9+** &mdash; included with macOS
+
+| Dependency | Details |
+|---|---|
+| **macOS 11+** | Big Sur or later (Apple Silicon native) |
+| **yt-dlp** | `brew install yt-dlp` or managed by the app |
+| **ffmpeg** | `brew install ffmpeg` or bundled |
+| **Python 3.9+** | Included with macOS |
 
 ---
 
@@ -102,10 +175,10 @@ Media Pull uses a multi-stage pipeline for maximum quality:
 
 ```
 Analyze  →  Download Video  →  Download Audio  →  Merge & Encode  →  SponsorBlock  →  Done
-                (yt-dlp)          (yt-dlp)         (ffmpeg/GPU)       (optional)
+               (yt-dlp)          (yt-dlp)         (ffmpeg/GPU)       (optional)
 ```
 
-1. **Analyze** &mdash; fetches video metadata, available formats, chapters, and thumbnail via yt-dlp
+1. **Analyze** &mdash; fetches video metadata, available formats, chapters, and thumbnail
 2. **Download** &mdash; downloads separate video and audio streams at the highest available quality
 3. **Encode** &mdash; merges streams into a single MP4 using hardware-accelerated H.264 encoding
 4. **SponsorBlock** &mdash; queries the SponsorBlock API and removes matched segments via ffmpeg
@@ -113,7 +186,9 @@ Analyze  →  Download Video  →  Download Audio  →  Merge & Encode  →  Spo
 
 ---
 
-## Architecture
+<details>
+<summary><strong>Architecture</strong></summary>
+<br>
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -142,9 +217,11 @@ Analyze  →  Download Video  →  Download Audio  →  Merge & Encode  →  Spo
 - **Rust** &mdash; Tauri v2 shell, manages Python subprocesses, emits events to frontend
 - **Python** &mdash; each module writes JSON lines to stdout, parsed by Rust in real-time
 
----
+</details>
 
-## Building from Source
+<details>
+<summary><strong>Building from Source</strong></summary>
+<br>
 
 ```bash
 # Prerequisites
@@ -166,9 +243,11 @@ npm run tauri:build
 
 The built app will be at `src-tauri/target/release/bundle/macos/Media Pull.app`.
 
----
+</details>
 
-## Configuration
+<details>
+<summary><strong>Configuration</strong></summary>
+<br>
 
 Settings are stored in `~/.config/media-pull/`:
 
@@ -177,6 +256,8 @@ Settings are stored in `~/.config/media-pull/`:
 | `config.json` | Output directory and app config |
 | `settings.json` | Cookies, SponsorBlock, encoding preferences |
 | `history.json` | Download history |
+
+</details>
 
 ---
 

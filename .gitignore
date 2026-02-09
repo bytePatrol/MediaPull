@@ -25,5 +25,5 @@ mockup*.html
 # Project reference (internal dev notes)
 PROJECT_REFERENCE.md
 
-# Claude Code
+# AI tooling
 .claude/
