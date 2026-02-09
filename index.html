@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Pull</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img class="sidebar-logo" src="src/logo.png" alt="Media Pull" draggable="false">
+      <span class="sidebar-title">Media<br>Pull</span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <button class="nav-item active" data-page="downloader">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>Downloader</span>
+      </button>
+      <button class="nav-item" data-page="library">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Library</span>
+      </button>
+      <button class="nav-item" data-page="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </button>
+      <button class="nav-item" data-page="logs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span>Logs</span>
+      </button>
+      <button class="nav-item" data-page="help">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Help</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-footer">
+      <div class="version-pill" id="version-pill">
+        <span class="dot"></span>
+        <span id="ytdlp-version">yt-dlp</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar"></div>
+
+    <div class="panel">
+      <!-- ====== DOWNLOADER PAGE ====== -->
+      <div class="page-view active" id="page-downloader">
+        <!-- URL Input -->
+        <div class="url-row">
+          <input type="text" class="url-input" id="url-input" spellcheck="false" placeholder="Paste YouTube URL...">
+          <button class="btn" id="btn-paste">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Paste
+          </button>
+          <button class="btn btn-accent" id="btn-analyze">
+            Analyze
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+
+        <!-- Analyzing indicator -->
+        <div class="analyzing-indicator" id="analyzing-indicator">
+          <div class="spinner"></div>
+          <span class="analyzing-text">Analyzing video...</span>
+        </div>
+
+        <!-- Video Info -->
+        <div class="video-info" id="video-info">
+          <div class="thumb">
+            <img id="thumb-img" src="" alt="">
+            <div class="thumb-duration" id="thumb-duration"></div>
+          </div>
+          <div class="meta">
+            <div class="meta-title" id="meta-title"></div>
+            <div class="meta-sub" id="meta-sub"></div>
+            <button class="chapters-link" id="chapters-link" style="display:none">
+              <span id="chapters-count"></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Playlist Selection -->
+        <div class="playlist-section" id="playlist-section">
+          <div class="playlist-header">
+            <div>
+              <div class="section-heading" id="playlist-heading">Playlist</div>
+              <div class="playlist-subtitle" id="playlist-subtitle"></div>
+            </div>
+            <div class="playlist-actions">
+              <button class="btn" id="playlist-select-all" style="padding:6px 14px;font-size:12px">Select All</button>
+              <button class="btn" id="playlist-select-none" style="padding:6px 14px;font-size:12px">Deselect All</button>
+            </div>
+          </div>
+          <div class="playlist-list" id="playlist-list"></div>
+        </div>
+
+        <!-- Quality Selection -->
+        <div class="quality-section" id="quality-section">
+          <div class="section-heading">Quality</div>
+          <div class="quality-grid" id="quality-grid"></div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-row" id="options-row">
+          <div class="opt-pill">
+            SponsorBlock
+            <label class="tog">
+              <input type="checkbox" id="toggle-sponsorblock" checked>
+              <div class="tog-track"></div>
+              <div class="tog-knob"></div>
+            </label>
+          </div>
+          <div class="opt-pill">
+            Subtitles
+            <label class="tog">
+              <input type="checkbox" id="toggle-subtitles">
+              <div class="tog-track"></div>
+              <div class="tog-knob"></div>
+            </label>
+          </div>
+          <div class="options-spacer"></div>
+          <button class="btn-trim" id="btn-trim">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="3"/>
+              <circle cx="6" cy="18" r="3"/>
+              <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+              <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+              <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+            </svg>
+            Trim
+          </button>
+        </div>
+
+        <!-- Download Button -->
+        <div class="download-section" id="download-section">
+          <button class="btn-download" id="btn-download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span id="download-label">Download</span>
+          </button>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section" id="progress-section">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <div class="progress-label" id="progress-label">Preparing...</div>
+        </div>
+      </div>
+
+      <!-- ====== LIBRARY PAGE ====== -->
+      <div class="page-view" id="page-library">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="page-header">Library</div>
+          <button class="btn" id="btn-clear-history">Clear All</button>
+        </div>
+        <div class="url-row" style="margin-bottom:8px">
+          <input type="text" class="url-input" id="library-search" placeholder="Search downloads..." style="font-family:inherit">
+        </div>
+        <div class="library-list" id="library-list">
+          <div class="empty-state" id="library-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <div class="empty-state-title">No downloads yet</div>
+            <div class="empty-state-desc">Downloaded videos will appear here</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== SETTINGS PAGE ====== -->
+      <div class="page-view" id="page-settings">
+        <div class="page-header">Settings</div>
+        <div class="settings-tabs" id="settings-tabs">
+          <button class="settings-tab active" data-tab="cookies">Cookies</button>
+          <button class="settings-tab" data-tab="sponsorblock">SponsorBlock</button>
+          <button class="settings-tab" data-tab="encoding">Encoding</button>
+          <button class="settings-tab" data-tab="output">Output</button>
+          <button class="settings-tab" data-tab="advanced">Advanced</button>
+        </div>
+
+        <!-- Cookies Tab -->
+        <div class="settings-group settings-tab-content active" id="tab-cookies">
+          <!-- Safety Alert -->
+          <div class="cookie-alert cookie-alert-green">
+            <div class="cookie-alert-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="cookie-alert-title">Protect Your YouTube Account</div>
+              <div class="cookie-alert-text">Using cookies helps bypass YouTube's download restrictions.<br><strong>IMPORTANT:</strong> Use a burner account, not your personal YouTube account!<br>Create a dedicated browser profile to protect your main account.</div>
+            </div>
+          </div>
+
+          <!-- Enable toggle -->
+          <div class="settings-row">
+            <div style="display:flex;align-items:center;gap:10px">
+              <label class="tog">
+                <input type="checkbox" id="settings-cookies-enabled">
+                <div class="tog-track"></div>
+                <div class="tog-knob"></div>
+              </label>
+              <div class="settings-label">Enable browser cookies for downloads</div>
+            </div>
+          </div>
+
+          <!-- Browser selection -->
+          <div class="cookie-field-row">
+            <label class="cookie-field-label">Browser:</label>
+            <select class="settings-select" id="settings-cookies-browser" style="flex:1">
+              <option value="">Select browser...</option>
+            </select>
+            <button class="btn" id="btn-refresh-browsers" style="padding:8px 14px">Refresh</button>
+          </div>
+
+          <!-- Profile selection -->
+          <div class="cookie-field-row">
+            <label class="cookie-field-label">Profile:</label>
+            <select class="settings-select" id="settings-cookies-profile" style="flex:1">
+              <option value="">Select profile...</option>
+            </select>
+          </div>
+
+          <!-- Cookie Status Card -->
+          <div class="cookie-status-card">
+            <div class="cookie-status-title">Cookie Status</div>
+            <div class="cookie-status-text" id="cookie-test-result">Not tested yet</div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="cookie-actions">
+            <button class="btn btn-accent" id="btn-test-cookies">Test Cookies</button>
+            <button class="btn" id="btn-burner-guide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Burner Account Guide
+            </button>
+          </div>
+
+          <!-- Personal account warning (shown when default profile selected) -->
+          <div class="cookie-alert cookie-alert-amber" id="cookie-profile-warning" style="display:none">
+            <div class="cookie-alert-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <div class="cookie-alert-text">This profile may be your personal account.<br>Consider creating a dedicated burner profile.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SponsorBlock Tab -->
+        <div class="settings-group settings-tab-content" id="tab-sponsorblock">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">SponsorBlock</div>
+              <div class="settings-desc">Automatically remove sponsor segments</div>
+            </div>
+            <label class="tog">
+              <input type="checkbox" id="settings-sb-enabled" checked>
+              <div class="tog-track"></div>
+              <div class="tog-knob"></div>
+            </label>
+          </div>
+          <div class="sb-categories-header">
+            <div class="settings-label">Categories to remove:</div>
+            <button class="sb-toggle-all" id="sb-toggle-all">Deselect All</button>
+          </div>
+          <div class="sb-categories-grid" id="sb-categories"></div>
+        </div>
+
+        <!-- Encoding Tab -->
+        <div class="settings-group settings-tab-content" id="tab-encoding">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Encoder</div>
+              <div class="settings-desc">Hardware (GPU) is faster; CPU is more compatible</div>
+            </div>
+            <select class="settings-select" id="settings-encoder">
+              <option value="auto">Auto (GPU with CPU fallback)</option>
+              <option value="h264_videotoolbox">GPU (VideoToolbox)</option>
+              <option value="libx264">CPU (libx264)</option>
+            </select>
+          </div>
+
+          <!-- Video Bitrate Mode -->
+          <div>
+            <div class="settings-label">Video Bitrate Mode</div>
+            <div class="settings-desc" style="margin-bottom:8px">Controls the video bitrate used during encoding</div>
+            <div class="bitrate-mode-tabs" id="bitrate-mode-tabs">
+              <button class="bitrate-mode-tab active" data-mode="auto">Auto</button>
+              <button class="bitrate-mode-tab" data-mode="per-resolution">Per-Resolution</button>
+              <button class="bitrate-mode-tab" data-mode="custom">Custom</button>
+            </div>
+          </div>
+
+          <!-- Auto mode description -->
+          <div class="bitrate-panel" id="bitrate-panel-auto">
+            <div class="settings-desc">Matches the source video bitrate. No upscaling or modification.</div>
+          </div>
+
+          <!-- Per-Resolution mode -->
+          <div class="bitrate-panel" id="bitrate-panel-per-resolution" style="display:none">
+            <div class="bitrate-presets-card">
+              <div class="settings-label" style="margin-bottom:10px">Per-Resolution Bitrates</div>
+              <div class="bitrate-preset-row">
+                <span class="bitrate-preset-label">4K (2160p)</span>
+                <input type="number" class="bitrate-input" id="br-2160" value="45" min="1" max="200">
+                <span class="bitrate-unit">Mbps</span>
+              </div>
+              <div class="bitrate-preset-row">
+                <span class="bitrate-preset-label">1440p</span>
+                <input type="number" class="bitrate-input" id="br-1440" value="30" min="1" max="200">
+                <span class="bitrate-unit">Mbps</span>
+              </div>
+              <div class="bitrate-preset-row">
+                <span class="bitrate-preset-label">1080p</span>
+                <input type="number" class="bitrate-input" id="br-1080" value="15" min="1" max="200">
+                <span class="bitrate-unit">Mbps</span>
+              </div>
+              <div class="bitrate-preset-row">
+                <span class="bitrate-preset-label">720p</span>
+                <input type="number" class="bitrate-input" id="br-720" value="10" min="1" max="200">
+                <span class="bitrate-unit">Mbps</span>
+              </div>
+              <div class="bitrate-preset-row">
+                <span class="bitrate-preset-label">480p</span>
+                <input type="number" class="bitrate-input" id="br-480" value="5" min="1" max="200">
+                <span class="bitrate-unit">Mbps</span>
+              </div>
+              <div class="settings-desc" style="margin-top:8px">Higher bitrate = better quality, larger files</div>
+            </div>
+          </div>
+
+          <!-- Custom mode -->
+          <div class="bitrate-panel" id="bitrate-panel-custom" style="display:none">
+            <div class="bitrate-presets-card">
+              <div class="settings-label" style="margin-bottom:10px">Custom Video Bitrate</div>
+              <div class="bitrate-preset-row">
+                <span class="bitrate-preset-label">All resolutions</span>
+                <input type="number" class="bitrate-input" id="br-custom" value="15" min="1" max="200">
+                <span class="bitrate-unit">Mbps</span>
+              </div>
+              <div class="settings-desc" style="margin-top:8px">This bitrate will be used regardless of source resolution. May upscale low-bitrate sources.</div>
+            </div>
+          </div>
+
+          <!-- Audio Bitrate -->
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Audio Bitrate</div>
+            </div>
+            <select class="settings-select" id="settings-audio-bitrate">
+              <option value="128k">128 kbps</option>
+              <option value="192k" selected>192 kbps</option>
+              <option value="256k">256 kbps</option>
+              <option value="320k">320 kbps</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Output Tab -->
+        <div class="settings-group settings-tab-content" id="tab-output">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Output Directory</div>
+              <div class="settings-desc" id="output-dir-display">~/Downloads</div>
+            </div>
+            <button class="btn" id="btn-choose-output">Choose Folder</button>
+          </div>
+        </div>
+
+        <!-- Advanced Tab -->
+        <div class="settings-group settings-tab-content" id="tab-advanced">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Debug Mode</div>
+              <div class="settings-desc">Show verbose logging output</div>
+            </div>
+            <label class="tog">
+              <input type="checkbox" id="settings-debug">
+              <div class="tog-track"></div>
+              <div class="tog-knob"></div>
+            </label>
+          </div>
+          <div class="settings-row">
+            <button class="btn" id="btn-update-ytdlp">Check for yt-dlp Updates</button>
+            <span id="update-status" style="font-size:13px;color:var(--text-2)"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== HELP PAGE ====== -->
+      <div class="page-view" id="page-help">
+        <div class="page-header">Help</div>
+        <div class="help-content">
+
+          <!-- Getting Started -->
+          <details class="help-section" open>
+            <summary class="help-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Getting Started
+              <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="help-section-body">
+              <div class="help-step">
+                <span class="help-step-num">1</span>
+                <div>
+                  <div class="help-step-title">Paste a YouTube URL</div>
+                  <div class="help-step-desc">Copy a video URL from YouTube and click <strong>Paste</strong>, or press <kbd>Cmd+V</kbd> anywhere in the app. The URL field accepts standard video links, shorts, and playlist URLs.</div>
+                </div>
+              </div>
+              <div class="help-step">
+                <span class="help-step-num">2</span>
+                <div>
+                  <div class="help-step-title">Analyze the video</div>
+                  <div class="help-step-desc">Click <strong>Analyze</strong> or press <kbd>Enter</kbd>. The app fetches video metadata, available formats, chapters, and thumbnail. This typically takes 5-15 seconds.</div>
+                </div>
+              </div>
+              <div class="help-step">
+                <span class="help-step-num">3</span>
+                <div>
+                  <div class="help-step-title">Choose quality</div>
+                  <div class="help-step-desc">Select from the quality grid: 4K, 1440p, 1080p, 720p, 480p, or Audio Only. The card marked <strong>"Best"</strong> is the highest quality with good compatibility. Cards show codec (H.264/VP9/AV1) and estimated file size.</div>
+                </div>
+              </div>
+              <div class="help-step">
+                <span class="help-step-num">4</span>
+                <div>
+                  <div class="help-step-title">Set options and download</div>
+                  <div class="help-step-desc">Toggle <strong>SponsorBlock</strong> to auto-remove sponsors, enable <strong>Subtitles</strong>, or use <strong>Trim</strong> to download a specific time range. Then click <strong>Download</strong> or press <kbd>Cmd+Enter</kbd>.</div>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Features -->
+          <details class="help-section">
+            <summary class="help-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Features
+              <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="help-section-body">
+              <div class="help-item">
+                <div class="help-item-title">SponsorBlock</div>
+                <div class="help-item-desc">Automatically detects and removes sponsored segments, intros, outros, self-promotion, and other non-content sections using the community-driven SponsorBlock database. Configure which categories to remove in Settings &rarr; SponsorBlock.</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">Trim / Time Range</div>
+                <div class="help-item-desc">Download only a portion of a video by specifying start and end times. Click the <strong>Trim</strong> button and enter times in <code>H:MM:SS</code> or <code>M:SS</code> format. Leave End blank to download from start time to the end of the video.</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">Chapter Downloads</div>
+                <div class="help-item-desc">For videos with chapters, click the <strong>"X chapters available"</strong> link to open the chapter selector. Choose individual chapters to download as separate files. Each chapter is split using stream copy (instant, no re-encoding).</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">Hardware Encoding</div>
+                <div class="help-item-desc">By default the app uses Apple's VideoToolbox (GPU) for fast H.264 encoding. If GPU encoding fails, it automatically falls back to CPU encoding (libx264). You can force a specific encoder in Settings &rarr; Encoding.</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">Cookie Support</div>
+                <div class="help-item-desc">Required for age-restricted or members-only videos. The app can extract cookies from Chrome, Firefox, Edge, or Safari. Set up in Settings &rarr; Cookies. Tip: use a dedicated browser profile instead of your main one.</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">Audio Only</div>
+                <div class="help-item-desc">Select the <strong>Audio Only</strong> card in the quality grid to download just the audio track. Output is saved as a high-quality M4A file (AAC codec).</div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Troubleshooting -->
+          <details class="help-section">
+            <summary class="help-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              Troubleshooting
+              <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="help-section-body">
+              <div class="help-issue">
+                <div class="help-issue-q">"Analysis failed" or "No result returned"</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>Check that the URL is a valid YouTube video link</li>
+                    <li>Your yt-dlp version may be outdated &mdash; go to Settings &rarr; Advanced &rarr; <strong>Check for yt-dlp Updates</strong></li>
+                    <li>Check the Activity Log for detailed error messages</li>
+                    <li>YouTube occasionally changes their API; updating yt-dlp usually fixes this</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="help-issue">
+                <div class="help-issue-q">"Sign in to confirm your age" / Age-restricted videos</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>Go to Settings &rarr; Cookies and enable cookie extraction</li>
+                    <li>Select a browser where you're logged into YouTube</li>
+                    <li>Click <strong>Test Cookies</strong> to verify they work</li>
+                    <li>For safety, use a separate browser profile rather than your main account</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="help-issue">
+                <div class="help-issue-q">Download is very slow or stalls</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>YouTube may be throttling your connection &mdash; the app will automatically retry with delays</li>
+                    <li>Try a lower quality (1080p instead of 4K) to test if the issue is bandwidth-related</li>
+                    <li>The app retries up to 6 times with progressive delays (10s, 20s, 30s, 45s, 60s)</li>
+                    <li>For 4K downloads, the app will try alternative format codes after repeated failures</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="help-issue">
+                <div class="help-issue-q">Encoding fails or video has no audio</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>Try switching the encoder to <strong>CPU (libx264)</strong> in Settings &rarr; Encoding</li>
+                    <li>GPU encoding (VideoToolbox) occasionally fails on certain resolutions or codecs</li>
+                    <li>If the output has no audio, the audio stream download may have failed &mdash; check the Activity Log and retry</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="help-issue">
+                <div class="help-issue-q">"HTTP Error 403: Forbidden"</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>This usually means YouTube is blocking the download request</li>
+                    <li>Update yt-dlp to the latest version (Settings &rarr; Advanced)</li>
+                    <li>Enable cookies to authenticate your requests</li>
+                    <li>The app automatically retries 403 errors with increasing delays</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="help-issue">
+                <div class="help-issue-q">SponsorBlock not removing segments</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>Not all videos have SponsorBlock data &mdash; it depends on community submissions</li>
+                    <li>Verify SponsorBlock is enabled both on the download page toggle and in Settings &rarr; SponsorBlock</li>
+                    <li>Very new videos may not have segments submitted yet</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="help-issue">
+                <div class="help-issue-q">App can't find yt-dlp or ffmpeg</div>
+                <div class="help-issue-a">
+                  <ul>
+                    <li>The app checks these locations in order: bundled binaries, <code>/opt/homebrew/bin</code>, <code>/usr/local/bin</code>, <code>/usr/bin</code></li>
+                    <li>Install via Homebrew: <code>brew install yt-dlp ffmpeg</code></li>
+                    <li>Or let the app manage yt-dlp via Settings &rarr; Advanced &rarr; Check for Updates</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Keyboard Shortcuts -->
+          <details class="help-section">
+            <summary class="help-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.001"/><path d="M10 8h.001"/><path d="M14 8h.001"/><path d="M18 8h.001"/><path d="M6 12h.001"/><path d="M10 12h.001"/><path d="M14 12h.001"/><path d="M18 12h.001"/><path d="M8 16h8"/></svg>
+              Keyboard Shortcuts
+              <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="help-section-body">
+              <div class="help-shortcut">
+                <kbd>Cmd + V</kbd>
+                <span>Paste YouTube URL from clipboard</span>
+              </div>
+              <div class="help-shortcut">
+                <kbd>Enter</kbd>
+                <span>Analyze the current URL</span>
+              </div>
+              <div class="help-shortcut">
+                <kbd>Cmd + Enter</kbd>
+                <span>Start download (or analyze if no video loaded)</span>
+              </div>
+            </div>
+          </details>
+
+          <!-- About -->
+          <details class="help-section">
+            <summary class="help-section-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              About
+              <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="help-section-body">
+              <div class="help-item">
+                <div class="help-item-title">Media Pull v1.0.0</div>
+                <div class="help-item-desc">A native macOS application for downloading YouTube videos in up to 4K resolution. Built with Tauri, powered by yt-dlp and ffmpeg.</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">How it works</div>
+                <div class="help-item-desc">The app downloads separate video and audio streams from YouTube using yt-dlp, then merges them into a single MP4 file using ffmpeg with hardware-accelerated encoding. This approach allows downloading the highest quality formats that YouTube provides.</div>
+              </div>
+              <div class="help-item">
+                <div class="help-item-title">File output</div>
+                <div class="help-item-desc">Downloads are saved to your configured output directory (default: <code>~/Downloads</code>). Files are named after the video title with unsafe characters removed. Chapter downloads create a subfolder with numbered files.</div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- ====== LOGS PAGE ====== -->
+      <div class="page-view" id="page-logs">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="page-header">Activity Log</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" id="btn-export-logs">Export</button>
+            <button class="btn" id="btn-clear-logs">Clear</button>
+          </div>
+        </div>
+        <div class="log-container" id="log-container"></div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="statusbar">
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-label">Speed:</span>
+          <span class="stat-value" id="stat-speed">&mdash;</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">ETA:</span>
+          <span class="stat-value" id="stat-eta">&mdash;</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Size:</span>
+          <span class="stat-value" id="stat-size">&mdash;</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">FPS:</span>
+          <span class="stat-value" id="stat-fps">&mdash;</span>
+        </div>
+      </div>
+      <button class="log-link" id="log-link">
+        Activity Log
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Trim Modal -->
+<div class="modal-overlay" id="trim-modal">
+  <div class="modal">
+    <div class="modal-title">Trim Video</div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label>Start Time</label>
+        <input type="text" id="trim-start" placeholder="0:00" value="">
+      </div>
+      <div class="modal-field">
+        <label>End Time</label>
+        <input type="text" id="trim-end" placeholder="End" value="">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="trim-cancel">Cancel</button>
+      <button class="btn btn-accent" id="trim-apply">Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chapter Selection Modal -->
+<div class="modal-overlay" id="chapter-modal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-title">Select Chapters</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="btn" id="chapters-select-all" style="padding:6px 14px;font-size:12px">Select All</button>
+      <button class="btn" id="chapters-select-none" style="padding:6px 14px;font-size:12px">Deselect All</button>
+    </div>
+    <div class="chapter-list" id="chapter-list"></div>
+    <div class="modal-actions">
+      <button class="btn" id="chapters-cancel">Cancel</button>
+      <button class="btn btn-accent" id="chapters-download">Download Selected</button>
+    </div>
+  </div>
+</div>
+
+<!-- Burner Account Setup Guide Modal -->
+<div class="modal-overlay" id="burner-guide-modal">
+  <div class="modal burner-guide-modal">
+    <div class="burner-guide-titlebar">Burner Account Setup Guide</div>
+
+    <div class="burner-guide-body">
+      <!-- Hero -->
+      <div class="burner-hero">
+        <div class="burner-hero-title">Protect Your YouTube Account</div>
+        <div class="burner-hero-desc">Create a dedicated browser profile with a burner account<br>to safely download videos without risking your personal account.</div>
+      </div>
+
+      <!-- Warning Banner -->
+      <div class="burner-warning">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>WARNING: Using your personal YouTube account for downloading<br>may result in account restrictions or termination.</span>
+      </div>
+
+      <!-- Browser Tabs -->
+      <div class="burner-tabs" id="burner-tabs">
+        <button class="burner-tab active" data-btab="chrome">Chrome / Edge</button>
+        <button class="burner-tab" data-btab="firefox">Firefox</button>
+        <button class="burner-tab" data-btab="safari">Safari</button>
+      </div>
+
+      <!-- Chrome / Edge Steps -->
+      <div class="burner-steps" id="btab-chrome">
+        <div class="burner-step">
+          <div class="burner-step-num">1. Open Chrome or Edge</div>
+          <div class="burner-step-desc">Launch the browser you want to use.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">2. Click profile icon</div>
+          <div class="burner-step-desc">Look for the profile icon in the top-right corner<br>(next to the 3-dot menu).</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">3. Click 'Add'</div>
+          <div class="burner-step-desc">Select 'Add' or 'Add another profile' from the dropdown.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">4. Name your profile</div>
+          <div class="burner-step-desc">Enter a name like 'YouTube Downloader' or 'YT Burner'<br>(don't sign into Chrome sync).</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">5. Create a burner YouTube account</div>
+          <div class="burner-step-desc">In the new profile, go to youtube.com and create a new Google account using a temporary email. Sign in to YouTube.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">6. Select the profile in Media Pull</div>
+          <div class="burner-step-desc">Go to Settings &rarr; Cookies, select Chrome/Edge as the browser, then pick your new profile from the Profile dropdown.</div>
+        </div>
+      </div>
+
+      <!-- Firefox Steps -->
+      <div class="burner-steps" id="btab-firefox" style="display:none">
+        <div class="burner-step">
+          <div class="burner-step-num">1. Open Firefox Profile Manager</div>
+          <div class="burner-step-desc">Type <code>about:profiles</code> in the Firefox address bar and press Enter.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">2. Create a new profile</div>
+          <div class="burner-step-desc">Click 'Create a New Profile' and follow the wizard. Name it 'YT Burner' or 'YouTube Downloader'.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">3. Launch the new profile</div>
+          <div class="burner-step-desc">Click 'Launch profile in new browser' to open Firefox with the new profile.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">4. Create a burner YouTube account</div>
+          <div class="burner-step-desc">Go to youtube.com, create a new Google account with a temporary email, and sign in.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">5. Select the profile in Media Pull</div>
+          <div class="burner-step-desc">Go to Settings &rarr; Cookies, select Firefox as the browser, then pick your new profile from the Profile dropdown.</div>
+        </div>
+      </div>
+
+      <!-- Safari Steps -->
+      <div class="burner-steps" id="btab-safari" style="display:none">
+        <div class="burner-step">
+          <div class="burner-step-num">1. Open Safari</div>
+          <div class="burner-step-desc">Launch Safari on your Mac.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">2. Create a new profile</div>
+          <div class="burner-step-desc">Go to Safari &rarr; Settings &rarr; Profiles, then click the '+' button to create a new profile. Name it 'YT Burner'.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">3. Switch to the new profile</div>
+          <div class="burner-step-desc">Use the profile switcher in the Safari toolbar to switch to your new profile.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">4. Create a burner YouTube account</div>
+          <div class="burner-step-desc">Go to youtube.com, create a new Google account with a temporary email, and sign in.</div>
+        </div>
+        <div class="burner-step">
+          <div class="burner-step-num">5. Select the profile in Media Pull</div>
+          <div class="burner-step-desc">Go to Settings &rarr; Cookies, select Safari as the browser, then pick your new profile from the Profile dropdown.</div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="burner-tips">
+        <div class="burner-tips-title">Tips for Creating a Burner Account</div>
+        <div class="burner-tips-list">
+          <div>&ndash; Use a temporary email service (temp-mail.org, guerrillamail.com)</div>
+          <div>&ndash; Do NOT link to your personal Google account</div>
+          <div>&ndash; Avoid phone number verification if possible</div>
+          <div>&ndash; Sign into YouTube, not just Google</div>
+          <div>&ndash; Cookies typically last ~30 days before needing refresh</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="burner-actions">
+      <button class="btn btn-accent" id="burner-guide-test">I'm Done &mdash; Test My Cookies</button>
+      <div style="flex:1"></div>
+      <button class="btn" id="burner-guide-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- yt-dlp Update Modal -->
+<div class="modal-overlay" id="update-modal">
+  <div class="modal update-modal">
+    <div class="update-modal-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+    </div>
+    <div class="update-modal-title">yt-dlp Update Available</div>
+    <div class="update-modal-versions">
+      <span class="update-version-old" id="update-current-ver">Current: —</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <span class="update-version-new" id="update-new-ver">New: —</span>
+    </div>
+    <div class="update-modal-desc">A newer version of yt-dlp is available. Updating ensures compatibility with YouTube and access to the latest fixes.</div>
+    <div class="update-modal-actions">
+      <button class="btn btn-accent update-btn-primary" id="update-btn-install">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Update Now
+      </button>
+      <button class="btn" id="update-btn-dismiss">Not Now</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

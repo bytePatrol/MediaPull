@@ -1,0 +1,17 @@
+{
+  "name": "media-pull",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build && bash scripts/post-build.sh",
+    "tauri:build:debug": "tauri build --debug && bash scripts/post-build.sh"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2"
+  }
+}
